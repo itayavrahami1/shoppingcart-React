@@ -1,0 +1,22 @@
+.toy-edit {
+    .toy-edit-form > * {
+        margin: 10px;
+    }
+    img {
+        @include aspect-ratio(1, 1);
+        max-width: 300px;
+        margin-bottom: 30px;
+    }
+
+    a {
+        color: $clr5;
+        text-decoration: none;
+    }
+
+    #toy-name, #toy-price, #toy-type{
+        text-align: center;
+    }
+    #toy-type, #toy-type>*{
+        min-width: 150px !important;
+    }
+}

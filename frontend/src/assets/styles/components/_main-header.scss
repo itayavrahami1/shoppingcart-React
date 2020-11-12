@@ -1,0 +1,31 @@
+.main-header {
+
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 10vh;
+    background-color: $clr4;
+    color: $clr2;
+    margin-bottom: 30px;
+    
+    h1{
+        font-size: rem(50px);
+        margin: auto 10px;
+    }
+
+    a {
+        color: $clr2;
+        text-decoration: none;
+        margin: 0 20px;
+        
+    }
+    
+    .navbar-menu{
+        min-height: 10vh;
+        
+        .home-link:hover,.toys-link:hover{
+            border-bottom: 2px $clr2 solid;
+        }
+    }
+}

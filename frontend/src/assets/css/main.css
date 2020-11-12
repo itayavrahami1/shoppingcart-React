@@ -1,0 +1,31 @@
+/* .user-msg {
+    background-color: #dadada;
+    padding: 20px;
+    border: black solid 1px;
+    box-shadow: 2px -2px black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  } */
+
+  .hidden {
+    visibility: hidden;
+  }
+
+  .visible {
+    visibility: visible;
+  }
+
+  a {
+    color: black;
+    text-decoration: none;
+  }
+
+  .toys-list button {
+    background-color: red;
+  }
+
+  .details-back {
+    color: black;
+  }

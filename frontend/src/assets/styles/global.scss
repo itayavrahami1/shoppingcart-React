@@ -2,7 +2,7 @@
 @import "setup/variables.scss";
 @import "setup/functions.scss";
 @import "setup/mixins.scss";
-@import "setup/typography.scss";
+// @import "setup/typography.scss";
 
 // Basics
 @import "basics/helpers.scss";
@@ -12,3 +12,10 @@
 @import "basics/buttons.scss";
 
 // Components
+@import "components/main-header.scss";
+@import "components/toys-list.scss";
+@import "components/user-msg.scss";
+@import "components/toy-card.scss";
+@import "components/toy-details.scss";
+@import "components/toy-edit.scss";
+// @import "components/cat-card.scss";

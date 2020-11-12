@@ -1,0 +1,16 @@
+.toy-details{
+    img{
+        @include aspect-ratio(1, 1);
+        max-width: 300px;
+        margin-bottom: 30px;
+    }
+
+    button{
+        margin: 10px;
+    }
+
+    a {
+        color: $clr5;
+        text-decoration: none;
+    }
+}
