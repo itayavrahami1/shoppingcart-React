@@ -10,7 +10,7 @@ async function getUsers(req, res) {
     console.log(req.query);
     const users = await userService.query(req.query)
     logger.debug(users);
-    res.send(users)
+    res.json(users)
 }
 
 async function deleteUser(req, res) {
@@ -21,7 +21,7 @@ async function deleteUser(req, res) {
 async function updateUser(req, res) {
     const user = req.body;
     await userService.update(user)
-    res.send(user)
+    res.json(user)
 }
 
 module.exports = {

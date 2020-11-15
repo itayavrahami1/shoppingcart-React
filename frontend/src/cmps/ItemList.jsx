@@ -1,20 +1,18 @@
 import React from 'react'
-import { ToyPreview } from "./ToyPreview";
+import { ItemPreview } from "./ItemPreview";
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 
 export function ItemList({ items }) {
-    console.log('list', items);
-    return (<div>{items.map(item => { return <h4 key="item.id">{item.name}</h4> })}</div>)
-    // return (<ul className="toys-list flex grid card-grid">
-    //     {toys.map(toy => {
-    //         return <li key={toy._id}>
-    //             <ToyPreview toy={toy} />
-    //             <Button variant="contained" color="primary" className="toy-details-btn" >
-    //                 <Link to={`/toy/${toy._id}`}>Details</Link>
-    //             </Button>
-    //         </li>
-    //     })}
-    // </ul>)
+    return (<ul className="items-list flex grid card-grid">
+        {items.map(item => {
+            return <li key={item._id}>
+                <ItemPreview item={item} />
+                <Button variant="contained" color="primary" className="item-details-btn" >
+                    <Link to={`/${item._id}`}>Details</Link>
+                </Button>
+            </li>
+        })}
+    </ul>)
 }
 

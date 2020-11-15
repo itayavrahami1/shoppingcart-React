@@ -1,22 +1,41 @@
 {
   "shop": [
     {
-      "id": "i101",
       "name": "Toster oven",
       "price": "20",
       "imgURL": "https://robohash.org/i101"
     },
     {
-      "id": "i102",
       "name": "TV",
-      "price": "550",
+      "price": "55",
       "imgURL": "https://robohash.org/i102"
     },
     {
-      "id": "i103",
       "name": "Microwave",
       "price": "60",
       "imgURL": "https://robohash.org/i103"
     }
   ]
 }
+// {
+//   "shop": [
+//     {
+//       "_id": "i101",
+//       "name": "Toster oven",
+//       "price": "20",
+//       "imgURL": "https://robohash.org/i101"
+//     },
+//     {
+//       "_id": "i102",
+//       "name": "TV",
+//       "price": "55",
+//       "imgURL": "https://robohash.org/i102"
+//     },
+//     {
+//       "_id": "i103",
+//       "name": "Microwave",
+//       "price": "60",
+//       "imgURL": "https://robohash.org/i103"
+//     }
+//   ]
+// }

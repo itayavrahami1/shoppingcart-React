@@ -13,7 +13,7 @@ const loader = require('../assets/imgs/loading.gif')
 class _ShopApp extends Component {
     state = {
         pagination: {
-            numOfItems: 1,
+            numOfItems: 2,
             currPage: 0
         }
     }
@@ -22,11 +22,12 @@ class _ShopApp extends Component {
     }
 
     itemsToShow = (items) => {
+        // const totNumOfPages = items.length / this.state.pagination.numOfItems;
+
         const initIdx = this.state.pagination.currPage * this.state.pagination.numOfItems;
         const finIdx = initIdx + this.state.pagination.numOfItems;
 
         const itemsToShow = items.slice(initIdx, finIdx)
-        console.log('itemsToShow', itemsToShow);
         return itemsToShow
     }
 
@@ -35,7 +36,7 @@ class _ShopApp extends Component {
             return {
                 pagination: {
                     ...prevState.pagination,
-                    currPage: this.state.pagination.currPage++
+                    currPage: (this.state.pagination.currPage + 1 >= this.props.items.length / this.state.pagination.numOfItems) ? 0 : this.state.pagination.currPage + 1
                 }
             }
         })
@@ -47,7 +48,6 @@ class _ShopApp extends Component {
 
     render() {
         const items = this.itemsToShow(this.props.items)
-        console.log('items', items);
         if (!items || !items.length) return (<img src={loader} alt="" />)
         return (
             // <div className="items-app main-container flex column justify-center align-center">
