@@ -1,6 +1,6 @@
 import httpService from './httpService'
 
-export default {
+export const userService = {
     login,
     logout,
     signup,
@@ -30,6 +30,8 @@ async function login(userCred) {
     return _handleLogin(user)
 }
 async function signup(userCred) {
+    userCred['cart'] = [];
+    console.log(userCred);
     const user = await httpService.post('auth/signup', userCred)
     return _handleLogin(user)
 }

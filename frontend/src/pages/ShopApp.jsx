@@ -13,7 +13,7 @@ const loader = require('../assets/imgs/loading.gif')
 class _ShopApp extends Component {
     state = {
         pagination: {
-            numOfItems: 2,
+            numOfItems: 3,
             currPage: 0
         }
     }
@@ -22,8 +22,6 @@ class _ShopApp extends Component {
     }
 
     itemsToShow = (items) => {
-        // const totNumOfPages = items.length / this.state.pagination.numOfItems;
-
         const initIdx = this.state.pagination.currPage * this.state.pagination.numOfItems;
         const finIdx = initIdx + this.state.pagination.numOfItems;
 
@@ -31,15 +29,25 @@ class _ShopApp extends Component {
         return itemsToShow
     }
 
-    onNextPage = () => {
+    onNextPrevPage = (diff) => {
+        const defaultPage = this.state.pagination.currPage + diff;
+
         this.setState((prevState) => {
             return {
                 pagination: {
                     ...prevState.pagination,
-                    currPage: (this.state.pagination.currPage + 1 >= this.props.items.length / this.state.pagination.numOfItems) ? 0 : this.state.pagination.currPage + 1
+                    currPage: defaultPage
                 }
             }
         })
+    }
+
+    getPrevNextBtnsClass = () => {
+        let clsName = ['', '']
+        clsName[0] = (this.state.pagination.currPage !== 0) ? '' : 'hide'
+        clsName[1] = ((this.state.pagination.currPage + 1) < this.props.items.length / this.state.pagination.numOfItems) ? '' : 'hide'
+        return clsName
+
     }
 
     onRemoveItem = (itemId) => {
@@ -50,11 +58,13 @@ class _ShopApp extends Component {
         const items = this.itemsToShow(this.props.items)
         if (!items || !items.length) return (<img src={loader} alt="" />)
         return (
-            // <div className="items-app main-container flex column justify-center align-center">
-            <div >
-                <h1>My Items</h1>
-                <ItemList items={items} />
-                <button onClick={this.onNextPage}>Next Page</button>
+            // <div className="items-app main-container">
+            <div className="items-app main-container">
+                <ItemList cls="flex grid card-grid" items={items} />
+                <section className="prevNext-btns flex space-between">
+                    <button className={this.getPrevNextBtnsClass()[0]} onClick={() => this.onNextPrevPage(-1)}>Previous Page</button>
+                    <button className={this.getPrevNextBtnsClass()[1]} onClick={() => this.onNextPrevPage(1)}>Next Page</button>
+                </section>
             </div >
         )
         // <div className="items-app main-container flex column justify-center align-center">

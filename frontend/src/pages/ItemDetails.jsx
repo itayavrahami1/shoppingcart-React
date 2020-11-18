@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { itemService } from '../services/itemService';
 import { removeItem } from '../store/actions/itemActions';
 import Button from '@material-ui/core/Button';
+import { addToCart } from '../store/actions/userActions';
 
 class _ItemDetails extends Component {
     state = {
@@ -11,19 +12,22 @@ class _ItemDetails extends Component {
     }
     componentDidMount() {
         const itemId = this.props.match.params.id;
-        console.log('mount',itemId);
         itemService.getById(itemId)
             .then(item => this.setState({ item }))
     }
-
-    onRemoveItem = async () => {
-        await this.props.removeItem(this.state.item._id)
+    // UPDATING USER - UPDATING USER CART
+    onAddToCart = async (item) => {
+        if (!this.props.user) this.props.history.push('/')
+        
+        if (this.props.user.cart) {this.props.user.cart.push(item)}
+        else {this.props.user.cart = [item]}
+        await this.props.addToCart(this.props.user)
         this.props.history.push('/')
     }
 
     render() {
         const { item } = this.state
-        if (!item) return <div>Lopading..</div>
+        if (!item) return <div>Loading..</div>
         return (
             <div className="all-details flex column align-center justify-center">
                 <section className="item-details flex align-center justify-center">
@@ -33,11 +37,8 @@ class _ItemDetails extends Component {
                         <h3>price: ${item.price}</h3>
                         <section className="detailts-btns flex space-between">
                             <Button variant="contained" color="primary"
-                            ><Link to={`/item/edit/${item._id}`}>Edit</Link>
+                                onClick={() => this.onAddToCart(item)}>Add To Cart
                             </Button>
-                            <Button variant="contained" color="primary"
-                                onClick={this.onRemoveItem}>X
-                    </Button>
                         </section>
                         <Button variant="contained" color="primary">
                             <Link to='/' className="details-back">
@@ -57,7 +58,8 @@ const mapStateToPrpos = state => {
 }
 
 const mapDispatchToProps = {
-    removeItem
+    removeItem,
+    addToCart
 }
 
 

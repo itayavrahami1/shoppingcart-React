@@ -13,9 +13,11 @@
 
 // Components
 @import "components/main-header.scss";
-@import "components/toys-list.scss";
+@import "components/items-list.scss";
 @import "components/user-msg.scss";
-@import "components/toy-card.scss";
-@import "components/toy-details.scss";
+@import "components/item-card.scss";
+@import "components/item-details.scss";
+@import "components/cart";
+@import "components/shop-app";
 @import "components/toy-edit.scss";
 // @import "components/cat-card.scss";

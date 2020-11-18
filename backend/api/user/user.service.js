@@ -1,6 +1,5 @@
 
 const dbService = require('../../services/db.service')
-const reviewService = require('../review/review.service')
 const ObjectId = require('mongodb').ObjectId
 
 module.exports = {
@@ -18,7 +17,6 @@ async function query(filterBy = {}) {
     try {
         const users = await collection.find(criteria).toArray();
         users.forEach(user => delete user.password);
-
         return users
     } catch (err) {
         console.log('ERROR: cannot find users')
@@ -30,24 +28,20 @@ async function getById(userId) {
     const collection = await dbService.getCollection('user')
     try {
         const user = await collection.findOne({ "_id": ObjectId(userId) })
-        delete user.password
-
-        user.givenReviews = await reviewService.query({ byUserId: ObjectId(user._id) })
-        user.givenReviews = user.givenReviews.map(review => {
-            delete review.byUser
-            return review
-        })
-
-
+        if(user) delete user.password
         return user
     } catch (err) {
         console.log(`ERROR: while finding user ${userId}`)
         throw err;
     }
 }
+
 async function getByEmail(email) {
     const collection = await dbService.getCollection('user')
     try {
+        //TODO - its OK? 
+        // const emailToFind = new RegExp(`${email}`, 'i') 
+        // const user = await collection.findOne({ email: emailToFind })
         const user = await collection.findOne({ email })
         return user
     } catch (err) {
@@ -69,7 +63,7 @@ async function remove(userId) {
 async function update(user) {
     const collection = await dbService.getCollection('user')
     user._id = ObjectId(user._id);
-
+    user.updatedAt = Date.now();
     try {
         await collection.replaceOne({ "_id": user._id }, { $set: user })
         return user
@@ -92,13 +86,11 @@ async function add(user) {
 
 function _buildCriteria(filterBy) {
     const criteria = {};
-    if (filterBy.txt) {
-        criteria.username = filterBy.txt
+    if (filterBy.username) {
+        criteria.username =  new RegExp(`${filterBy.username}`, 'i') 
     }
     if (filterBy.minBalance) {
         criteria.balance = { $gte: +filterBy.minBalance }
     }
     return criteria;
 }
-
-

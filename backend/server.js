@@ -29,19 +29,15 @@ if (process.env.NODE_ENV === 'production') {
     app.use(cors(corsOptions));
 }
 
-const authRoutes = require('./api/auth/auth.routes')
 const itemRoutes = require('./api/item/item.routes')
+const authRoutes = require('./api/auth/auth.routes')
 const userRoutes = require('./api/user/user.routes')
-const reviewRoutes = require('./api/review/review.routes')
-const connectSockets = require('./api/socket/socket.routes')
 
 
 // routes
-app.use('/api/auth', authRoutes)
 app.use('/api/shop', itemRoutes)
 app.use('/api/user', userRoutes)
-// app.use('/api/review', reviewRoutes)
-connectSockets(io)
+app.use('/api/auth', authRoutes)
 
 app.get('/**', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));

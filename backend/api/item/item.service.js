@@ -1,12 +1,10 @@
 
 const dbService = require('../../services/db.service')
-const reviewService = require('../review/review.service')
 const ObjectId = require('mongodb').ObjectId
 
 module.exports = {
     query,
     getById,
-    // getByEmail,
     remove,
     update,
     add
@@ -20,7 +18,6 @@ async function query(filterBy = {}) {
     try {
         const items = await collection.find(criteria).toArray();
         // items.forEach(item => delete item.password);
-
         return items
     } catch (err) {
         console.log('ERROR: cannot find items')

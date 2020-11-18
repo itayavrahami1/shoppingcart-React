@@ -16,7 +16,6 @@ function getItems(filterBy = {}) {
 }
 
 function getById(itemId) {
-    console.log(itemId);
     return httpService.get(`shop/${itemId}`)
 }
 

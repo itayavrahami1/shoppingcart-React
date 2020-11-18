@@ -14,9 +14,8 @@
         margin: auto 10px;
     }
 
-    a {
+    a , .login-link {
         color: $clr2;
-        text-decoration: none;
         margin: 0 20px;
         
     }
@@ -24,8 +23,9 @@
     .navbar-menu{
         min-height: 10vh;
         
-        .home-link:hover,.toys-link:hover{
+        a:hover,.login-link:hover{
             border-bottom: 2px $clr2 solid;
+            cursor: pointer;
         }
     }
 }

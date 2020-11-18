@@ -3,8 +3,8 @@ import { ItemPreview } from "./ItemPreview";
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 
-export function ItemList({ items }) {
-    return (<ul className="items-list flex grid card-grid">
+export function ItemList({ items, cls }) {
+    return (<ul className={`items-list clean-list ` + cls}>
         {items.map(item => {
             return <li key={item._id}>
                 <ItemPreview item={item} />

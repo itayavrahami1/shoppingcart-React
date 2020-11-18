@@ -1,6 +1,6 @@
 .card-cat {
     @include aspect-ratio(1, 1);
-
+    
     font-family: caveat;
     font-size: rem(50px);
     color: $clr6;

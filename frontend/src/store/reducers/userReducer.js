@@ -3,7 +3,6 @@ if (sessionStorage.user) localLoggedinUser = JSON.parse(sessionStorage.user);
 
 const initialState = {
   loggedInUser: localLoggedinUser,
-  users: []
 };
 
 export function userReducer(state = initialState, action = {}) {
@@ -17,6 +16,14 @@ export function userReducer(state = initialState, action = {}) {
       };
     case 'SET_USERS':
       return { ...state, users: action.users };
+    case 'LOGOUT':
+      return { ...state, loggedInUser: null };
+    case 'ADD_TO_CART':
+      return { ...state, loggedInUser: {...state.loggedInUser, cart: [...state.loggedInUser.cart, action.item]}};
+    // case 'ADD_TO_CART':
+    //   return { ...state, cart: [...state.cart, action.item] };
+    case 'ADD_TO_CART':
+      return { ...state, cart: [...state.cart, action.item] };
     default:
       return state;
   }

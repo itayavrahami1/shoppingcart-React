@@ -17,15 +17,6 @@
     visibility: visible;
   }
 
-  a {
-    color: black;
-    text-decoration: none;
-  }
-
-  .toys-list button {
-    background-color: red;
-  }
-
   .details-back {
     color: black;
   }

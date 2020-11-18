@@ -1,39 +1,15 @@
-import userService from '../../services/userService';
-// import { loading, doneLoading } from './systemActions';
+import { userService } from '../../services/userService';
 
-// THUNK
-export function loadUsers() {
-  return async dispatch => {
-    try {
-      // example for loading
-      // dispatch(loading());
-      const users = await userService.getUsers();
-      dispatch({ type: 'SET_USERS', users });
-    } catch (err) {
-      console.log('UserActions: err in loadUsers', err);
-      // example for rerouting - after changing the store
-      // history.push('/some/path');
-    } finally {
-      // dispatch(doneLoading());
-    }
-  };
-}
-// THUNK
-export function removeUser(userId) {
-  return async dispatch => {
-    try {
-      await userService.remove(userId);
-      dispatch({ type: 'USER_REMOVE', userId });
-    } catch (err) {
-      console.log('UserActions: err in removeUser', err);
-    }
-  };
-}
 // THUNK
 export function login(userCreds) {
   return async dispatch => {
-    const user = await userService.login(userCreds);
-    dispatch({ type: 'SET_USER', user });
+    try {
+      const user = await userService.login(userCreds);
+      dispatch({ type: 'SET_USER', user });
+    } catch (err) {
+      console.log('UserActions: err in Login', err);
+      throw Error(err);
+    }
   };
 }
 export function signup(userCreds) {
@@ -44,7 +20,24 @@ export function signup(userCreds) {
 }
 export function logout() {
   return async dispatch => {
-    await userService.logout();
-    dispatch({ type: 'SET_USER', user: null });
+    try {
+      await userService.logout();
+      dispatch({ type: 'LOGOUT' });
+    } catch (err) {
+      console.log('UserActions: err in logout', err);
+      dispatch({
+        type: 'SEND_NOTIFICATION',
+        notification: { msg: `Logout failed`, isSuccessed: false }
+      });
+    };
+  }
+}
+
+// USER CART ACTIONS 
+
+export function addToCart(userToUpdate) {
+  return async dispatch => {
+    const user = await userService.update(userToUpdate);
+    dispatch({ type: 'SET_USER', user });
   };
 }

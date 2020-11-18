@@ -1,16 +1,18 @@
+import { Button } from '@material-ui/core';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 import {
-  loadUsers,
-  removeUser,
   login,
   logout,
   signup
 } from '../store/actions/userActions';
 
-class _Login extends Component {
+class _LoginSignup extends Component {
   state = {
+    isLoggedIn: true,
+    isLoginSection: true,
     msg: '',
     loginCred: {
       email: '',
@@ -19,7 +21,8 @@ class _Login extends Component {
     signupCred: {
       email: '',
       password: '',
-      username: ''
+      username: '',
+      fullName: ''
     }
   };
 
@@ -50,27 +53,43 @@ class _Login extends Component {
       return this.setState({ msg: 'Please enter user/password' });
     }
     const userCreds = { email, password };
-    this.props.login(userCreds);
-    this.setState({ loginCred: { email: '', password: '' } });
+    try {
+      this.setState({ isLoggedIn: true }) //switch with 66 if needed 
+      await this.props.login(userCreds);
+      this.props.history.push('/')
+    } catch (err) {
+      console.log('failed to login', err);
+      this.setState({ loginCred: { ...this.state.loginCred, password: '' }, isLoggedIn: false })
+    }
   };
 
   doSignup = async ev => {
     ev.preventDefault();
-    const { email, password, username } = this.state.signupCred;
-    if (!email || !password || !username) {
+    const { email, password, username, fullName } = this.state.signupCred;
+    if (!email || !password || !username || !fullName) {
       return this.setState({ msg: 'All inputs are required!' });
     }
-    const signupCreds = { email, password, username };
-    this.props.signup(signupCreds);
-    this.setState({ signupCred: { email: '', password: '', username: '' } });
+    const signupCreds = { email, password, username, fullName };
+    try {
+      this.props.signup(signupCreds);
+      this.props.history.push('/')
+    } catch (err) {
+      console.log('failed to singup', err);
+      this.setState({ signupCred: { email: '', password: '', username: '', fullName: '' } });
+    } 
   };
 
   removeUser = userId => {
     this.props.removeUser(userId);
   };
+
+  onSigninTypeBtn = () => {
+    this.setState({ isLoginSection: !this.state.isLoginSection })
+  }
+
   render() {
     let signupSection = (
-      <form onSubmit={this.doSignup}>
+      <form className="flex column" onSubmit={this.doSignup}>
         <input
           type="text"
           name="email"
@@ -95,11 +114,19 @@ class _Login extends Component {
           placeholder="Username"
         />
         <br />
-        <button>Signup</button>
+        <input
+          type="text"
+          name="fullName"
+          value={this.state.signupCred.fullName}
+          onChange={this.signupHandleChange}
+          placeholder="Full Name"
+        />
+        <br />
+        <button className="signin-btn">Create Account</button>
       </form>
     );
     let loginSection = (
-      <form onSubmit={this.doLogin}>
+      <form className="flex column" onSubmit={this.doLogin}>
         <input
           type="text"
           name="email"
@@ -116,44 +143,27 @@ class _Login extends Component {
           placeholder="Password"
         />
         <br />
-        <button>Login</button>
+        <button className="signin-btn">Sign in</button>
       </form>
     );
 
     const { loggedInUser } = this.props;
+    const { isLoginSection } = this.state;
+
     return (
-      <div className="test">
-        <h1>
-          This is a testing page for working with the Production Ready Server
-        </h1>
-        <h2>{this.state.msg}</h2>
-        {loggedInUser && (
-          <div>
-            <h2>Welcome: {loggedInUser.username} </h2>
-            <button onClick={this.props.logout}>Logout</button>
-          </div>
-        )}
-        {!loggedInUser && loginSection}
-        {!loggedInUser && signupSection}
-
-        <hr />
-        <button onClick={this.props.loadUsers}>Get All Users</button>
-        {this.props.isLoading && 'Loading...' }
-        {this.props.users && <ul>
-
-          {this.props.users.map(user => (
-            <li key={user._id}>
-              <pre>{JSON.stringify(user, null, 2)}</pre>
-              <button
-                onClick={() => {
-                  this.removeUser(user._id);
-                }}
-              >
-                Remove {user.username}
-              </button>
-            </li>
-          ))}
-        </ul>}
+      <div>
+        <section className="login-signup flex column justify-center align-center">
+          <h3>
+            {(isLoginSection) ? 'Login' : 'Create your account'}
+          </h3>
+          {(!loggedInUser && this.state.isLoginSection) ? loginSection : signupSection}
+        </section>
+        <section className="login-signup-btn flex column justify-center align-center">
+          {(!this.state.isLoginSection) && <h6>Already have an account?</h6>}
+          <Button onClick={this.onSigninTypeBtn} variant="contained" color="primary">
+            {(this.state.isLoginSection) ? 'Create an account' : 'Sign in'}
+          </Button>
+        </section>
       </div>
     );
   }
@@ -161,17 +171,13 @@ class _Login extends Component {
 
 const mapStateToProps = state => {
   return {
-    users: state.userReducer.users,
     loggedInUser: state.userReducer.loggedInUser,
-    // isLoading: state.system.isLoading
   };
 };
 const mapDispatchToProps = {
   login,
   logout,
   signup,
-  removeUser,
-  loadUsers
 };
 
-export const Login = connect(mapStateToProps, mapDispatchToProps)(_Login);
+export const LoginSignup = connect(mapStateToProps, mapDispatchToProps)(withRouter(_LoginSignup));
