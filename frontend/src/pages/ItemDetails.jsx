@@ -19,9 +19,10 @@ class _ItemDetails extends Component {
     onAddToCart = async (item) => {
         if (!this.props.user) this.props.history.push('/')
         
-        if (this.props.user.cart) {this.props.user.cart.push(item)}
-        else {this.props.user.cart = [item]}
-        await this.props.addToCart(this.props.user)
+        // if (this.props.user.cart) {this.props.user.cart.push(item)}
+        // else {this.props.user.cart = [item]}
+        // await this.props.addToCart(this.props.user)
+        await this.props.addToCart(this.props.user, item)
         this.props.history.push('/')
     }
 

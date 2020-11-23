@@ -19,11 +19,12 @@ export function userReducer(state = initialState, action = {}) {
     case 'LOGOUT':
       return { ...state, loggedInUser: null };
     case 'ADD_TO_CART':
-      return { ...state, loggedInUser: {...state.loggedInUser, cart: [...state.loggedInUser.cart, action.item]}};
+      return { ...state, loggedInUser: action.updatedUser};
+      // return { ...state, loggedInUser: {...state.loggedInUser, cart: action.cart}};
     // case 'ADD_TO_CART':
     //   return { ...state, cart: [...state.cart, action.item] };
-    case 'ADD_TO_CART':
-      return { ...state, cart: [...state.cart, action.item] };
+    // case 'ADD_TO_CART':
+    //   return { ...state, cart: [...state.cart, action.item] };
     default:
       return state;
   }

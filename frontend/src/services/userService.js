@@ -7,7 +7,8 @@ export const userService = {
     getUsers,
     getById,
     remove,
-    update
+    update,
+    updateCart
 }
 
 function getUsers() {
@@ -22,6 +23,23 @@ function remove(userId) {
 }
 
 function update(user) {
+    return httpService.put(`user/${user._id}`, user)
+}
+
+function updateCart(user, item, diff = 1) {
+    debugger
+    if (!user.cart || !user.cart.length) {
+        item['amount']= 1
+        user['cart'] = [item];
+    } else {
+        const itemIdx = user.cart.findIndex(currItem => {return item._id === currItem._id})
+        if (itemIdx !== -1) {
+            user.cart[itemIdx]['amount'] = user.cart[itemIdx]['amount'] + diff
+        } else {
+            item['amount'] = 1
+            user.cart.push(item)
+        }
+    }
     return httpService.put(`user/${user._id}`, user)
 }
 

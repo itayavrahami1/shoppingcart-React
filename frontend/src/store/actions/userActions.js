@@ -34,10 +34,11 @@ export function logout() {
 }
 
 // USER CART ACTIONS 
-
-export function addToCart(userToUpdate) {
+export function addToCart(user,item) {
   return async dispatch => {
-    const user = await userService.update(userToUpdate);
-    dispatch({ type: 'SET_USER', user });
+    const updatedUser = await userService.updateCart(user,item);
+    // const {cart} = updatedUser
+    // dispatch({ type: 'ADD_TO_CART',  cart});
+    dispatch({ type: 'ADD_TO_CART',  updatedUser});
   };
 }
